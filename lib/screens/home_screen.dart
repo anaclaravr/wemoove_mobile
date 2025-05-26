@@ -3,7 +3,16 @@ import '../core/theme/colors.dart';
 import '../models/bus_route.dart';
 import '../widgets/bus_card.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isNearby = true;
+
   final List<BusRoute> mockData = [
     BusRoute(
       numero: 342,
@@ -56,7 +65,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 16),
             Center(
               child: Image.asset(
-                'assets/images/wemoove_logo.png',
+                'lib/assets/images/wemoove_logo.png',
                 height: 40,
               ),
             ),
@@ -78,50 +87,87 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.lilasClaro,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'Ao redor',
-                    style: TextStyle(
-                      color: AppColors.roxo,
-                      fontFamily: 'Inter',
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'Recente',
-                    style: TextStyle(fontFamily: 'Inter'),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
+            // Fundo arredondado verde água
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: mockData.length,
-                itemBuilder:
-                    (context, index) => BusCard(route: mockData[index]),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: AppColors.verdeAgua,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _TabButton(
+                          icon: Icons.directions_bus,
+                          text: "Ao redor",
+                          isSelected: isNearby,
+                          onTap: () => setState(() => isNearby = true),
+                        ),
+                        const SizedBox(width: 12),
+                        _TabButton(
+                          icon: Icons.schedule,
+                          text: "Recente",
+                          isSelected: !isNearby,
+                          onTap: () => setState(() => isNearby = false),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: mockData.length,
+                        itemBuilder:
+                            (context, index) => BusCard(route: mockData[index]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TabButton extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _TabButton({
+    required this.icon,
+    required this.text,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.lilasClaro : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: AppColors.roxo, size: 18),
+            const SizedBox(width: 8),
+            Text(
+              text,
+              style: const TextStyle(
+                fontFamily: 'Inter',
+                color: AppColors.roxo,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],

@@ -109,23 +109,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _TabButton(
-                          icon: Icons.directions_bus,
-                          text: "Ao redor",
-                          isSelected: isNearby,
-                          onTap: () => setState(() => isNearby = true),
-                        ),
-                        const SizedBox(width: 12),
-                        _TabButton(
-                          icon: Icons.schedule,
-                          text: "Recente",
-                          isSelected: !isNearby,
-                          onTap: () => setState(() => isNearby = false),
-                        ),
-                      ],
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFAF9F9),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          _TabButton(
+                            icon: Icons.directions_bus,
+                            text: "Ao redor",
+                            isSelected: isNearby,
+                            onTap: () => setState(() => isNearby = true),
+                          ),
+                          _TabButton(
+                            icon: Icons.schedule,
+                            text: "Recente",
+                            isSelected: !isNearby,
+                            onTap: () => setState(() => isNearby = false),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 16),
                     Expanded(
@@ -162,27 +168,30 @@ class _TabButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.lilasClaro : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: AppColors.roxo, size: 18),
-            const SizedBox(width: 8),
-            Text(
-              text,
-              style: const TextStyle(
-                fontFamily: 'Inter',
-                color: AppColors.roxo,
-                fontWeight: FontWeight.w500,
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 42,
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.lilasClaro : Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: AppColors.roxo, size: 18),
+              const SizedBox(width: 6),
+              Text(
+                text,
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  color: AppColors.roxo,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

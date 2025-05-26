@@ -9,7 +9,13 @@ class RouteScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.fundoApp,
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2, // índice da aba de rota
+        currentIndex: 2, // índice da aba rota
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pushReplacementNamed(context, '/home');
+          }
+          // Aqui pode implementar os outros índices se quiser
+        },
         selectedItemColor: AppColors.azulNavegacao,
         unselectedItemColor: Colors.grey,
         items: const [
@@ -22,7 +28,7 @@ class RouteScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Container(

@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 16),
             Center(
               child: Image.asset(
-                'lib/assets/images/wemoove_logo.png',
+                'assets/images/wemoove_logo.png',
                 height: 40,
               ),
             ),

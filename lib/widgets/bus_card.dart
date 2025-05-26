@@ -35,22 +35,37 @@ class BusCard extends StatelessWidget {
         children: [
           Row(
             children: [
+              // Caixa com linha lateral colorida e número do ônibus
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
                 decoration: BoxDecoration(
-                  color: getLineColor().withOpacity(0.2),
+                  color: const Color(0xFFE3E3E3),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Text(
-                  route.numero.toString(),
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.bold,
-                    color: getLineColor(),
-                  ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 4,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: getLineColor(),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(6),
+                          bottomLeft: Radius.circular(6),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        route.numero.toString(),
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(width: 12),
@@ -67,7 +82,7 @@ class BusCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
-                  vertical: 4,
+                  vertical: 6,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
@@ -79,7 +94,7 @@ class BusCard extends StatelessWidget {
                     const SizedBox(width: 4),
                     Text(
                       route.tempo,
-                      style: const TextStyle(fontFamily: 'Inter'),
+                      style: const TextStyle(fontFamily: 'Inter', fontSize: 12),
                     ),
                   ],
                 ),
@@ -87,6 +102,16 @@ class BusCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
+          const Text(
+            "NESSE MOMENTO:",
+            style: TextStyle(
+              fontSize: 10,
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF9C9C9C),
+            ),
+          ),
+          const SizedBox(height: 2),
           Row(
             children: [
               const Icon(
@@ -95,23 +120,14 @@ class BusCard extends StatelessWidget {
                 size: 14,
               ),
               const SizedBox(width: 6),
-              const Text(
-                "NESSE MOMENTO:",
-                style: TextStyle(
-                  fontSize: 10,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(width: 6),
               Expanded(
                 child: Text(
                   route.localizacao,
                   style: const TextStyle(
                     fontSize: 12,
                     fontFamily: 'Inter',
-                    color: Colors.black87,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF616161),
                   ),
                 ),
               ),

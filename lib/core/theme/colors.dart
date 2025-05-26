@@ -8,4 +8,10 @@ class AppColors {
   static const laranja = Color(0xFFEB6E38);
   static const amarelo = Color(0xFFF7C64D);
   static const fundoApp = Color(0xFFEDEDED);
+
+  // Extras usados no protótipo atualizado
+  static const cinzaCaixaNumero = Color(0xFFE3E3E3);
+  static const fundoTabs = Color(0xFFFAF9F9);
+  static const textoEndereco = Color(0xFF616161);
+  static const textoMomento = Color(0xFF9C9C9C);
 }

@@ -14,7 +14,7 @@ class RouteScreen extends StatelessWidget {
           if (index == 0) {
             Navigator.pushReplacementNamed(context, '/home');
           }
-          // Aqui pode implementar os outros índices se quiser
+          // Outras abas podem ser implementadas aqui
         },
         selectedItemColor: AppColors.azulNavegacao,
         unselectedItemColor: Colors.grey,
@@ -32,26 +32,19 @@ class RouteScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                 decoration: BoxDecoration(
-                  color: AppColors.laranja.withOpacity(0.1),
+                  color: const Color(0xFFFAF9F9),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                padding: const EdgeInsets.all(12),
                 child: Row(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 8),
-                      decoration: BoxDecoration(
+                    Text(
+                      '342',
+                      style: TextStyle(
                         color: AppColors.laranja,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: const Text(
-                        '342',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
                       ),
                     ),
                     const SizedBox(width: 12),

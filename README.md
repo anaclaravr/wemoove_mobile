@@ -26,6 +26,10 @@ Diferente dos aplicativos tradicionais que dependem apenas do rastreamento dos v
 - Histórico de trajetos e horários
 - Sistema de check-in colaborativo
 
+## Figma 
+
+https://www.figma.com/proto/vfyEWsVeP0WSw8eQZ7xcmn/WeMoove-%7C-Mobile?node-id=3-2&t=9RLXI5jovYiYjGRU-1
+
 ## Como rodar o projeto
 
 ```bash

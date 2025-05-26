@@ -12,6 +12,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isNearby = true;
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    if (index == 2) {
+      Navigator.pushNamed(context, '/route');
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
 
   final List<BusRoute> mockData = [
     BusRoute(
@@ -49,6 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: AppColors.fundoApp,
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
         backgroundColor: Colors.white,
         selectedItemColor: AppColors.azulNavegacao,
         unselectedItemColor: Colors.grey,
@@ -65,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 16),
             Center(
               child: Image.asset(
-                'lib/assets/images/wemoove_logo.png',
+                'assets/images/wemoove_logo.png',
                 height: 40,
               ),
             ),
@@ -87,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            // Fundo arredondado verde água
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
@@ -120,8 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ListView.builder(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         itemCount: mockData.length,
-                        itemBuilder:
-                            (context, index) => BusCard(route: mockData[index]),
+                        itemBuilder: (context, index) =>
+                            BusCard(route: mockData[index]),
                       ),
                     ),
                   ],

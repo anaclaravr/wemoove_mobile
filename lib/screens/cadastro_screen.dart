@@ -1,9 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../core/theme/colors.dart';
 import '../core/theme/fonts.dart';
 
-class CadastroScreen extends StatelessWidget {
+class CadastroScreen extends StatefulWidget {
   const CadastroScreen({super.key});
+
+  @override
+  State<CadastroScreen> createState() => _CadastroScreenState();
+}
+
+class _CadastroScreenState extends State<CadastroScreen> {
+  final nomeController = TextEditingController();
+  final emailController = TextEditingController();
+  final senhaController = TextEditingController();
+  final auth = FirebaseAuth.instance;
+
+  Future<void> criarConta() async {
+    try {
+      await auth.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: senhaController.text.trim(),
+      );
+      Navigator.pushReplacementNamed(context, '/main');
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Erro ao cadastrar: $e')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,88 +54,54 @@ class CadastroScreen extends StatelessWidget {
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   fontFamily: AppTextStyles.defaultFont,
-                  color: AppColors.azulNavegacao, // azul igual ao Login
+                  color: AppColors.azulNavegacao,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
-              const Text(
-                'Nome completo',
-                style: AppTextStyles.subtitle,
-              ),
+              const Text('Nome completo', style: AppTextStyles.subtitle),
               const SizedBox(height: 8),
               TextField(
-                decoration: InputDecoration(
-                  hintText: 'Digite seu nome completo',
-                  suffixIcon: const Icon(Icons.lock_outline),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                controller: nomeController,
+                decoration: _inputDecoration(
+                  'Digite seu nome completo',
+                  Icons.person_outline,
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'E-mail',
-                style: AppTextStyles.subtitle,
-              ),
+              const Text('E-mail', style: AppTextStyles.subtitle),
               const SizedBox(height: 8),
               TextField(
-                decoration: InputDecoration(
-                  hintText: 'Digite seu e-mail',
-                  suffixIcon: const Icon(Icons.mail_outline),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                controller: emailController,
+                decoration: _inputDecoration(
+                  'Digite seu e-mail',
+                  Icons.mail_outline,
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Nova senha',
-                style: AppTextStyles.subtitle,
-              ),
+              const Text('Nova senha', style: AppTextStyles.subtitle),
               const SizedBox(height: 8),
               TextField(
+                controller: senhaController,
                 obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Crie uma senha',
-                  suffixIcon: const Icon(Icons.lock_outline),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
+                decoration: _inputDecoration(
+                  'Crie uma senha',
+                  Icons.lock_outline,
                 ),
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
                   Checkbox(value: false, onChanged: (_) {}),
-                  const Text(
-                    'Lembrar senha?',
-                    style: AppTextStyles.subtitle,
-                  ),
+                  const Text('Lembrar senha?', style: AppTextStyles.subtitle),
                 ],
               ),
               const SizedBox(height: 24),
               SizedBox(
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Continuar para a próxima tela
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.azulNavegacao,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+                  onPressed: criarConta,
+                  style: _botaoEstilo(),
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -130,9 +121,7 @@ class CadastroScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: () => Navigator.pop(context),
                 child: const Text.rich(
                   TextSpan(
                     text: 'Já tem uma conta? ',
@@ -143,7 +132,7 @@ class CadastroScreen extends StatelessWidget {
                           color: AppColors.azulNavegacao,
                           fontWeight: FontWeight.bold,
                         ),
-                      )
+                      ),
                     ],
                   ),
                   textAlign: TextAlign.center,
@@ -153,6 +142,26 @@ class CadastroScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  InputDecoration _inputDecoration(String hint, IconData icon) {
+    return InputDecoration(
+      hintText: hint,
+      suffixIcon: Icon(icon),
+      filled: true,
+      fillColor: Colors.white,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
+      ),
+    );
+  }
+
+  ButtonStyle _botaoEstilo() {
+    return ElevatedButton.styleFrom(
+      backgroundColor: AppColors.azulNavegacao,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     );
   }
 }

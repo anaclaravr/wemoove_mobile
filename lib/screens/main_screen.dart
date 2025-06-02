@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../core/theme/colors.dart';
-import 'home_screen.dart';
-import 'buscar_screen.dart';
-import 'route_screen.dart';
+import '../screens/home_screen.dart';
+import '../screens/buscar_screen.dart';
+import '../screens/route_screen.dart';
+import '../screens/play_screen.dart';
+import '../widgets/custom_route_icon.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -18,7 +20,13 @@ class _MainScreenState extends State<MainScreen> {
     HomeScreen(),
     BuscarScreen(),
     RouteScreen(),
-    Placeholder(),
+    PlayScreen(
+    numero: '342',
+    destino: 'Estação Barreiro / Solar',
+    via: 'Via Estação Diamante',
+    cor: 'laranja',
+    ocupacao: 26,
+  ),
   ];
 
   void _onItemTapped(int index) {
@@ -34,59 +42,29 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
+        backgroundColor: Colors.white,
         selectedItemColor: AppColors.azulNavegacao,
         unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
         items: [
-          const BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          const BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
-          BottomNavigationBarItem(
-            icon: RouteIcon(
-              color: _selectedIndex == 2 ? AppColors.azulNavegacao : Colors.grey,
-            ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.home),
             label: '',
           ),
-          const BottomNavigationBarItem(icon: Icon(Icons.play_arrow), label: ''),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: CustomRouteIcon(isSelected: _selectedIndex == 2),
+            label: '',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.play_arrow),
+            label: '',
+          ),
         ],
       ),
-    );
-  }
-}
-
-class RouteIcon extends StatelessWidget {
-  final Color color;
-  const RouteIcon({required this.color, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _circle(),
-        _line(),
-        _circle(),
-        _line(),
-        _circle(),
-      ],
-    );
-  }
-
-  Widget _circle() {
-    return Container(
-      width: 6,
-      height: 6,
-      margin: const EdgeInsets.symmetric(horizontal: 1.5),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color,
-      ),
-    );
-  }
-
-  Widget _line() {
-    return Container(
-      width: 10,
-      height: 1.5,
-      color: color,
     );
   }
 }

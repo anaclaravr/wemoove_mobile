@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "199668291946",
+    "project_id": "wemoove-1a4f0",
+    "storage_bucket": "wemoove-1a4f0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199668291946:android:e28f75184eaf916250ed13",
+        "android_client_info": {
+          "package_name": "com.example.flutter_wemoove"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrLdGqYBMsZ4H_x4xrEYo4lAeKt3ekqg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

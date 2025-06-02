@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
@@ -5,10 +7,13 @@ import 'screens/buscar_screen.dart';
 import 'screens/route_screen.dart';
 import 'screens/main_screen.dart'; // a nova tela controlador
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const WeMooveApp());
 }
-
 class WeMooveApp extends StatelessWidget {
   const WeMooveApp({super.key});
 

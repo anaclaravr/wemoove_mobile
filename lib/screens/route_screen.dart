@@ -11,84 +11,89 @@ class RouteScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFAF9F9),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 52,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE3E3E3),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            bottom: 0,
-                            child: Container(
-                              width: 6,
-                              decoration: BoxDecoration(
-                                color: AppColors.laranja,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10),
+            // Fundo azulado aplicado aqui
+            Container(
+              color: AppColors.verdeAgua,
+              padding: const EdgeInsets.only(top: 12, bottom: 16),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFAF9F9),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 52,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE3E3E3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 0,
+                              top: 0,
+                              bottom: 0,
+                              child: Container(
+                                width: 6,
+                                decoration: BoxDecoration(
+                                  color: AppColors.laranja,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const Center(
-                            child: Text(
-                              '342',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                            const Center(
+                              child: Text(
+                                '342',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
                               ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Estação Barreiro / Solar',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                          )
-                        ],
+                            Text(
+                              'Via Estação Diamante',
+                              style: TextStyle(fontSize: 12, color: Colors.grey),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Estação Barreiro / Solar',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Via Estação Diamante',
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
-                          )
-                        ],
-                      ),
-                    ),
-                    const Icon(Icons.people_outline, color: Colors.orange),
-                    const SizedBox(width: 4),
-                    const Text('26')
-                  ],
+                      const Icon(Icons.people_outline, color: Colors.orange),
+                      const SizedBox(width: 4),
+                      const Text('26')
+                    ],
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 12),
             Expanded(
               child: Stack(
                 children: [
-                  Container(
-                    color: Colors.grey[300],
+                  SizedBox(
                     width: double.infinity,
-                    child: const Center(child: Text('Mapa simulado')),
+                    child: Image.asset(
+                      'assets/images/mapa_estatico.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   Positioned(
                     bottom: 0,

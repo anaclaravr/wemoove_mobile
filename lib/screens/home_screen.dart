@@ -12,17 +12,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isNearby = true;
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    if (index == 2) {
-      Navigator.pushNamed(context, '/route');
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
-  }
 
   final List<BusRoute> mockData = [
     BusRoute(
@@ -59,19 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.fundoApp,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        backgroundColor: Colors.white,
-        selectedItemColor: AppColors.azulNavegacao,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.alt_route), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.play_arrow), label: ''),
-        ],
-      ),
       body: SafeArea(
         child: Column(
           children: [

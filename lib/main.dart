@@ -18,7 +18,7 @@ class WeMooveApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'WeMoove',
       theme: ThemeData(fontFamily: 'Inter', useMaterial3: true),
-      initialRoute: '/',
+      initialRoute: '/main',
       routes: {
         '/': (context) => const LoginScreen(),
         '/main': (context) => const MainScreen(), // navegação com BottomNav

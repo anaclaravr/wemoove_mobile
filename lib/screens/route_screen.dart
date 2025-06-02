@@ -8,23 +8,6 @@ class RouteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.fundoApp,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2, // índice da aba rota
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/home');
-          }
-          // Outras abas podem ser implementadas aqui
-        },
-        selectedItemColor: AppColors.azulNavegacao,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.alt_route), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.play_arrow), label: ''),
-        ],
-      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -39,12 +22,40 @@ class RouteScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Text(
-                      '342',
-                      style: TextStyle(
-                        color: AppColors.laranja,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                    Container(
+                      width: 52,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE3E3E3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              width: 6,
+                              decoration: BoxDecoration(
+                                color: AppColors.laranja,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  bottomLeft: Radius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Center(
+                            child: Text(
+                              '342',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -84,8 +95,7 @@ class RouteScreen extends StatelessWidget {
                     left: 0,
                     right: 0,
                     child: Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -147,7 +157,7 @@ class RouteScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

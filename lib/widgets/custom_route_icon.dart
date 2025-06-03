@@ -11,8 +11,8 @@ class CustomRouteIcon extends StatelessWidget {
     final color = isSelected ? AppColors.azulNavegacao : Colors.grey;
 
     return SizedBox(
-      width: 28,
-      height: 18,
+      width: 36,
+      height: 20,
       child: CustomPaint(
         painter: _RouteIconPainter(color),
       ),
@@ -29,17 +29,31 @@ class _RouteIconPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = color
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    final fillPaint = Paint()
+      ..color = color
       ..style = PaintingStyle.fill;
 
     const radius = 4.0;
-    const spacing = 14.0;
+    final spacing = (size.width - (3 * radius * 2)) / 2;
 
-    for (int i = 0; i < 3; i++) {
-      final dx = i * spacing;
-      canvas.drawCircle(Offset(dx + radius, size.height / 2), radius, paint);
-    }
+    final circle1 = Offset(radius, size.height / 2);
+    final circle2 = Offset(radius * 3 + spacing, size.height / 2);
+    final circle3 = Offset(radius * 5 + spacing * 2, size.height / 2);
+
+    // Desenha a linha entre os círculos
+    canvas.drawLine(circle1, circle2, paint);
+    canvas.drawLine(circle2, circle3, paint);
+
+    // Desenha os círculos
+    canvas.drawCircle(circle1, radius, fillPaint);
+    canvas.drawCircle(circle2, radius, fillPaint);
+    canvas.drawCircle(circle3, radius, fillPaint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

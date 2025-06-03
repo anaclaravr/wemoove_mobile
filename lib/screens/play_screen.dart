@@ -37,7 +37,7 @@ class PlayScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Topo com linha do ônibus herdada da rota
+            // Card da linha de ônibus
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Container(
@@ -102,13 +102,13 @@ class PlayScreen extends StatelessWidget {
                     ),
                     const Icon(Icons.group_outlined, color: Colors.orange),
                     const SizedBox(width: 4),
-                    Text('$ocupacao')
+                    Text('$ocupacao'),
                   ],
                 ),
               ),
             ),
 
-            // Mapa simulado (mesmo da RouteScreen)
+            // Mapa simulado
             Expanded(
               child: SizedBox(
                 width: double.infinity,
@@ -119,15 +119,15 @@ class PlayScreen extends StatelessWidget {
               ),
             ),
 
-            // Botão encerrar viagem
+            // Botão de encerrar viagem
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               width: double.infinity,
               color: AppColors.azulNavegacao,
-              child: Center(
+              child: const Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Icon(Icons.pause, color: Colors.white),
                     SizedBox(width: 8),
                     Text(
@@ -143,17 +143,6 @@ class PlayScreen extends StatelessWidget {
             )
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 3,
-        selectedItemColor: AppColors.azulNavegacao,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.alt_route), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.play_arrow), label: ''),
-        ],
       ),
     );
   }

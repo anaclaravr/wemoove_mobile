@@ -20,6 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
       localizacao: 'Av. Afonso Vaz de Melo, 1191',
       tempo: '10 min',
       cor: 'laranja',
+      via: 'Estação Diamante', 
+      ocupacao: 5, 
     ),
     BusRoute(
       numero: 340,
@@ -27,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
       localizacao: 'Rua Vicente de Azevedo, 1542',
       tempo: '13 min',
       cor: 'amarelo',
+      via: 'Estação Diamante', 
+      ocupacao: 5,        
     ),
     BusRoute(
       numero: 342,
@@ -34,6 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
       localizacao: 'Av. Renato Azeredo, 254',
       tempo: '15 min',
       cor: 'laranja',
+      via: 'Estação Diamante', 
+      ocupacao: 5, 
     ),
     BusRoute(
       numero: 347,
@@ -41,6 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
       localizacao: 'Rua Teste, 1234',
       tempo: '15 min',
       cor: 'roxo',
+      via: 'Estação Diamante', 
+      ocupacao: 5, 
     ),
   ];
 

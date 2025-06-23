@@ -4,6 +4,8 @@ class BusRoute {
   final String localizacao;
   final String tempo;
   final String cor;
+  final String via; // novo
+  final int ocupacao; // novo
 
   BusRoute({
     required this.numero,
@@ -11,5 +13,7 @@ class BusRoute {
     required this.localizacao,
     required this.tempo,
     required this.cor,
+    required this.via,
+    required this.ocupacao,
   });
 }

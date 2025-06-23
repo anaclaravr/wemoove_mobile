@@ -20,6 +20,8 @@ class _BuscarScreenState extends State<BuscarScreen> {
       localizacao: '',
       tempo: '',
       cor: 'laranja',
+      via: 'Estação Diamante', 
+      ocupacao: 5, 
     ),
     BusRoute(
       numero: 340,
@@ -27,6 +29,8 @@ class _BuscarScreenState extends State<BuscarScreen> {
       localizacao: '',
       tempo: '',
       cor: 'amarelo',
+      via: 'Estação Diamante', 
+      ocupacao: 5, 
     ),
     BusRoute(
       numero: 342,
@@ -34,6 +38,8 @@ class _BuscarScreenState extends State<BuscarScreen> {
       localizacao: '',
       tempo: '',
       cor: 'roxo',
+      via: 'Estação Diamante', 
+      ocupacao: 5, 
     ),
     BusRoute(
       numero: 340,
@@ -41,6 +47,8 @@ class _BuscarScreenState extends State<BuscarScreen> {
       localizacao: '',
       tempo: '',
       cor: 'amarelo',
+      via: 'Estação Diamante', 
+      ocupacao: 5, 
     ),
     BusRoute(
       numero: 342,
@@ -48,6 +56,8 @@ class _BuscarScreenState extends State<BuscarScreen> {
       localizacao: '',
       tempo: '',
       cor: 'azul',
+      via: 'Estação Diamante', 
+      ocupacao: 5, 
     ),
   ];
 

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import '../core/theme/colors.dart';
 import '../screens/home_screen.dart';
 import '../screens/buscar_screen.dart';
-import '../screens/route_screen.dart';
 import '../screens/play_screen.dart';
 import '../widgets/custom_route_icon.dart';
+import '../models/bus_route.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,19 +16,24 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
-
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    BuscarScreen(),
-    RouteScreen(),
-    PlayScreen(
-    numero: '342',
-    destino: 'Estação Barreiro / Solar',
-    via: 'Via Estação Diamante',
-    cor: 'laranja',
-    ocupacao: 26,
-  ),
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const BuscarScreen(),
+    const PlayScreen(),
   ];
+final List<BusRoute> mockBusRoutes = [
+BusRoute(
+  numero: 342,
+  destino: 'Estação Barreiro / Solar',
+  localizacao: '',
+  tempo: '',
+  cor: 'laranja',
+  via: 'Via Estação Diamante',
+  ocupacao: 26,
+),
+
+];
+
 
   void _onItemTapped(int index) {
     setState(() {

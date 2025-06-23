@@ -2,20 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/theme/colors.dart';
 
 class PlayScreen extends StatelessWidget {
-  final String numero;
-  final String destino;
-  final String via;
-  final String cor;
-  final int ocupacao;
-
-  const PlayScreen({
-    super.key,
-    required this.numero,
-    required this.destino,
-    required this.via,
-    required this.cor,
-    required this.ocupacao,
-  });
+  const PlayScreen({super.key});
 
   Color _getCorLinha(String corNome) {
     switch (corNome) {
@@ -32,6 +19,24 @@ class PlayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final route = ModalRoute.of(context);
+    final args = route != null && route.settings.arguments != null
+    ? route.settings.arguments as Map<String, dynamic>
+    : {
+        'numero': 999,
+        'destino': 'Indefinido',
+        'via': '---',
+        'cor': 'cinza',
+        'ocupacao': 0,
+      };
+
+      final String numero = args['numero'].toString();
+      final String destino = args['destino']?.toString() ?? '';
+      final String via = args['via']?.toString() ?? '';
+      final String cor = args['cor']?.toString() ?? 'cinza';
+      final int ocupacao = int.tryParse(args['ocupacao'].toString()) ?? 0;
+
+
     return Scaffold(
       backgroundColor: AppColors.verdeAgua,
       body: SafeArea(
@@ -120,24 +125,29 @@ class PlayScreen extends StatelessWidget {
             ),
 
             // Botão de encerrar viagem
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              width: double.infinity,
-              color: AppColors.azulNavegacao,
-              child: const Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.pause, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text(
-                      'Encerrar viagem',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
+            GestureDetector(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/main');
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                width: double.infinity,
+                color: AppColors.azulNavegacao,
+                child: const Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.pause, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        'Encerrar viagem',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             )

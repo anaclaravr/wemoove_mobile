@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart'; // esse arquivo foi gerado pelo flutterfire configure
+import 'firebase_options.dart';
 
 import 'screens/login_screen.dart';
 import 'screens/cadastro_screen.dart';
@@ -11,7 +11,7 @@ import 'screens/route_screen.dart';
 import 'screens/play_screen.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // obrigatório antes de async
+  WidgetsFlutterBinding.ensureInitialized(); 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -38,20 +38,16 @@ class WeMooveApp extends StatelessWidget {
         '/main': (context) => const MainScreen(),
         '/home': (context) => const HomeScreen(),
         '/buscar': (context) => const BuscarScreen(),
-        '/route': (context) => const RouteScreen(),
+        '/route': (context) => const RouteScreen(), 
+        '/play': (context) => const PlayScreen(),
+
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/play') {
           final args = settings.arguments as Map<String, dynamic>;
           return MaterialPageRoute(
-            builder: (context) => PlayScreen(
-              numero: args['numero'],
-              destino: args['destino'],
-              via: args['via'],
-              cor: args['cor'],
-              ocupacao: args['ocupacao'],
-            ),
-          );
+          builder: (context) => const PlayScreen(),
+         );
         }
         return null;
       },

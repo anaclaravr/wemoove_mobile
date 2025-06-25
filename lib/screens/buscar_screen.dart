@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/theme/colors.dart';
-import '../models/bus_route.dart';
+import '../../core/theme/colors.dart';
+import '../../models/bus_route.dart';
 import '../widgets/bus_grid_card.dart';
 
 class BuscarScreen extends StatefulWidget {
@@ -11,55 +11,129 @@ class BuscarScreen extends StatefulWidget {
 }
 
 class _BuscarScreenState extends State<BuscarScreen> {
-  bool mostrarFavoritos = false;
+  List<BusRoute> allBusRoutes = [];
+  List<BusRoute> filteredBusRoutes = [];
 
-  final List<BusRoute> mockData = [
-    BusRoute(
-      numero: 342,
-      destino: 'Solar Via Estação Diamante',
-      localizacao: '',
-      tempo: '',
-      cor: 'laranja',
-      via: 'Estação Diamante', 
-      ocupacao: 5, 
-    ),
-    BusRoute(
-      numero: 340,
-      destino: 'Via Mangabeiras',
-      localizacao: '',
-      tempo: '',
-      cor: 'amarelo',
-      via: 'Estação Diamante', 
-      ocupacao: 5, 
-    ),
-    BusRoute(
-      numero: 342,
-      destino: 'Solar Via Estação Diamante',
-      localizacao: '',
-      tempo: '',
-      cor: 'roxo',
-      via: 'Estação Diamante', 
-      ocupacao: 5, 
-    ),
-    BusRoute(
-      numero: 340,
-      destino: 'Via Mangabeiras',
-      localizacao: '',
-      tempo: '',
-      cor: 'amarelo',
-      via: 'Estação Diamante', 
-      ocupacao: 5, 
-    ),
-    BusRoute(
-      numero: 342,
-      destino: 'Solar Via Estação Diamante',
-      localizacao: '',
-      tempo: '',
-      cor: 'azul',
-      via: 'Estação Diamante', 
-      ocupacao: 5, 
-    ),
-  ];
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    allBusRoutes = [
+      BusRoute(
+        numero: 3301,
+        destino: 'Centro',
+        via: 'Av. Principal',
+        cor: 'amarelo',
+        ocupacao: 10,
+        localizacao: 'Rua A, nº 123',
+        tempo: '5 min',
+      ),
+      BusRoute(
+        numero: 4402,
+        destino: 'Universidade',
+        via: 'Av. das Flores',
+        cor: 'laranja',
+        ocupacao: 25,
+        localizacao: 'Av. B, nº 200',
+        tempo: '12 min',
+      ),
+      BusRoute(
+        numero: 1103,
+        destino: 'Estação Norte',
+        via: 'Rua A',
+        cor: 'roxo',
+        ocupacao: 5,
+        localizacao: 'Estação do Norte',
+        tempo: '8 min',
+      ),
+      BusRoute(
+        numero: 2210,
+        destino: 'Shopping Sul',
+        via: 'Av. Central',
+        cor: 'verde',
+        ocupacao: 15,
+        localizacao: 'Av. Central, nº 500',
+        tempo: '9 min',
+      ),
+      BusRoute(
+        numero: 5507,
+        destino: 'Bairro Novo',
+        via: 'Rua das Laranjeiras',
+        cor: 'azul',
+        ocupacao: 30,
+        localizacao: 'Rua Laranjeiras, nº 70',
+        tempo: '14 min',
+      ),
+      BusRoute(
+        numero: 6633,
+        destino: 'Rodoviária',
+        via: 'Av. Brasil',
+        cor: 'vermelho',
+        ocupacao: 8,
+        localizacao: 'Av. Brasil, nº 901',
+        tempo: '4 min',
+      ),
+      BusRoute(
+        numero: 7788,
+        destino: 'Hospital Central',
+        via: 'Rua da Saúde',
+        cor: 'rosa',
+        ocupacao: 20,
+        localizacao: 'Rua da Saúde, nº 330',
+        tempo: '10 min',
+      ),
+      BusRoute(
+        numero: 8811,
+        destino: 'Praça da Liberdade',
+        via: 'Av. das Palmeiras',
+        cor: 'azul claro',
+        ocupacao: 12,
+        localizacao: 'Praça da Liberdade',
+        tempo: '6 min',
+      ),
+      BusRoute(
+        numero: 9902,
+        destino: 'Parque Municipal',
+        via: 'Rua Verde',
+        cor: 'verde claro',
+        ocupacao: 22,
+        localizacao: 'Parque Municipal, portão 1',
+        tempo: '11 min',
+      ),
+      BusRoute(
+        numero: 1044,
+        destino: 'Bairro Industrial',
+        via: 'Av. Ferrovia',
+        cor: 'cinza',
+        ocupacao: 6,
+        localizacao: 'Av. Ferrovia, nº 42',
+        tempo: '7 min',
+      ),
+      BusRoute(
+        numero: 1166,
+        destino: 'Zona Oeste',
+        via: 'Rua do Comércio',
+        cor: 'preto',
+        ocupacao: 18,
+        localizacao: 'Rua do Comércio, nº 88',
+        tempo: '13 min',
+      ),
+    ];
+
+    filteredBusRoutes = List.from(allBusRoutes);
+  }
+
+  void _filterRoutes(String query) {
+    setState(() {
+      filteredBusRoutes = allBusRoutes.where((route) {
+        final numero = route.numero.toString().toLowerCase();
+        final destino = route.destino.toLowerCase();
+        final search = query.toLowerCase();
+        return numero.contains(search) || destino.contains(search);
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,143 +142,52 @@ class _BuscarScreenState extends State<BuscarScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Pesquise uma linha',
-                        prefixIcon: const Icon(Icons.search),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
+              padding: const EdgeInsets.all(16),
+              child: TextField(
+                controller: _searchController,
+                onChanged: _filterRoutes,
+                decoration: InputDecoration(
+                  hintText: 'Buscar linha ou destino',
+                  prefixIcon: const Icon(Icons.search),
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
                   ),
-                  const SizedBox(width: 8),
-                  Container(
-                    height: 48,
-                    width: 48,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Icon(Icons.tune, color: Colors.grey),
-                  ),
-                ],
+                ),
               ),
             ),
-            const SizedBox(height: 16),
             Expanded(
               child: Container(
+                padding: const EdgeInsets.all(16),
                 decoration: const BoxDecoration(
                   color: AppColors.fundoApp,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFAF9F9),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
-                          _TabButton(
-                            icon: Icons.directions_bus,
-                            text: "Todos",
-                            isSelected: !mostrarFavoritos,
-                            onTap:
-                                () => setState(() => mostrarFavoritos = false),
-                          ),
-                          _TabButton(
-                            icon: Icons.star,
-                            text: "Favoritos",
-                            isSelected: mostrarFavoritos,
-                            onTap:
-                                () => setState(() => mostrarFavoritos = true),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 16,
-                                crossAxisSpacing: 16,
-                                childAspectRatio: 1.4,
-                              ),
-                          itemCount: mockData.length,
-                          itemBuilder:
-                              (context, index) =>
-                                  BusGridCard(route: mockData[index]),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: GridView.builder(
+                  itemCount: filteredBusRoutes.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: 2.0,
+                  ),
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final route = filteredBusRoutes[index];
+                    return BusGridCard(route: route);
+                  },
                 ),
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _TabButton extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _TabButton({
-    required this.icon,
-    required this.text,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          height: 42,
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.lilasClaro : Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, color: AppColors.roxo, size: 18),
-              const SizedBox(width: 6),
-              Text(
-                text,
-                style: const TextStyle(
-                  fontFamily: 'Inter',
-                  color: AppColors.roxo,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

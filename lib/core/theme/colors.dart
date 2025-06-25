@@ -14,4 +14,24 @@ class AppColors {
   static const fundoTabs = Color(0xFFFAF9F9);
   static const textoEndereco = Color(0xFF616161);
   static const textoMomento = Color(0xFF9C9C9C);
+
+  /// Retorna uma cor com base no nome da cor (em minúsculas)
+  static Color getColorFromName(String cor) {
+    switch (cor.toLowerCase()) {
+      case 'amarelo':
+        return amarelo;
+      case 'azul':
+        return azulNavegacao;
+      case 'roxo':
+        return roxo;
+      case 'laranja':
+        return laranja;
+      case 'verde':
+        return verdeAgua;
+      case 'lilas':
+        return lilasClaro;
+      default:
+        return cinzaCaixaNumero;
+    }
+  }
 }

@@ -21,20 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     const BuscarScreen(),
     const PlayScreen(),
   ];
-final List<BusRoute> mockBusRoutes = [
-BusRoute(
-  numero: 342,
-  destino: 'Estação Barreiro / Solar',
-  localizacao: '',
-  tempo: '',
-  cor: 'laranja',
-  via: 'Via Estação Diamante',
-  ocupacao: 26,
-),
-
-];
-
-
+ 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;

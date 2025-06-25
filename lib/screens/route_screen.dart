@@ -1,209 +1,188 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../models/bus_route.dart';
 import '../core/theme/colors.dart';
 
-class RouteScreen extends StatelessWidget {
+class RouteScreen extends StatefulWidget {
   const RouteScreen({super.key});
 
   @override
+  State<RouteScreen> createState() => _RouteScreenState();
+}
+
+class _RouteScreenState extends State<RouteScreen> {
+  GoogleMapController? _mapController;
+
+  final List<Map<String, String>> mockStops = [
+    {'address': 'Rua Vicente de Azevedo, 1191', 'time': '12 min'},
+    {'address': 'Av. Afonso Vaz de Melo, 1098', 'time': ''},
+    {'address': 'Rua José Gonçalves, 587', 'time': ''},
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args = ModalRoute.of(context)!.settings.arguments;
+    late final BusRoute route;
 
-    final String numero = args['numero'] ?? '';
-    final String destino = args['destino'] ?? '';
-    final String via = args['via'] ?? '';
-    final String cor = args['cor'] ?? 'cinza';
-    final int ocupacao = args['ocupacao'] ?? 0;
-
-    Color getLineColor(String cor) {
-      switch (cor) {
-        case 'amarelo':
-          return AppColors.amarelo;
-        case 'laranja':
-          return AppColors.laranja;
-        case 'roxo':
-          return AppColors.roxo;
-        default:
-          return Colors.grey;
-      }
+    if (args is BusRoute) {
+      route = args;
+    } else if (args is Map<String, dynamic>) {
+      route = BusRoute.fromJson(args);
+    } else {
+      throw Exception('Argumento inválido recebido na RouteScreen.');
     }
 
+    final CameraPosition initialPosition = CameraPosition(
+      target: LatLng(route.latitude, route.longitude),
+      zoom: 15,
+    );
+
+    final Marker marker = Marker(
+      markerId: MarkerId(route.numero.toString()),
+      position: LatLng(route.latitude, route.longitude),
+      infoWindow: InfoWindow(
+        title: 'Ônibus ${route.numero}',
+        snippet: route.localizacao,
+      ),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+    );
+
     return Scaffold(
-      backgroundColor: AppColors.fundoApp,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              color: AppColors.verdeAgua,
-              padding: const EdgeInsets.only(top: 12, bottom: 16),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFAF9F9),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 52,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE3E3E3),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              bottom: 0,
-                              child: Container(
-                                width: 6,
-                                decoration: BoxDecoration(
-                                  color: getLineColor(cor),
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Center(
-                              child: Text(
-                                numero,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              destino,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              via,
-                              style: const TextStyle(fontSize: 12, color: Colors.grey),
-                            )
-                          ],
-                        ),
-                      ),
-                      const Icon(Icons.people_outline, color: Colors.orange),
-                      const SizedBox(width: 4),
-                      Text(ocupacao.toString())
-                    ],
-                  ),
-                ),
+      body: Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: (controller) => _mapController = controller,
+            initialCameraPosition: initialPosition,
+            markers: {marker},
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            zoomControlsEnabled: false,
+          ),
+
+          // Header (barra superior com número e destino)
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 8,
+            left: 16,
+            right: 16,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.verdeAgua,
+                borderRadius: BorderRadius.circular(12),
               ),
-            ),
-            Expanded(
-              child: Stack(
+              child: Row(
                 children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Image.asset(
-                      'assets/images/mapa_estatico.png',
-                      fit: BoxFit.cover,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE3E3E3),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      route.numero.toString(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(24),
-                          topRight: Radius.circular(24),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Rua Vicente de Azevedo, 1191',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                children: [
-                                  Icon(Icons.access_time, size: 16),
-                                  SizedBox(width: 4),
-                                  Text('12 min'),
-                                ],
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          const Text('Av. Afonso Vaz de Melo, 1098'),
-                          const Text('Rua José Gonçalves, 587'),
-                          const SizedBox(height: 24),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                '/play',
-                                arguments: {
-                                  'numero': numero,
-                                  'destino': destino,
-                                  'via': via,
-                                  'cor': cor,
-                                  'ocupacao': ocupacao,
-                                },
-                              );
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.play_arrow, color: Colors.white),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Iniciar viagem em',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(width: 8),
-                                    Icon(Icons.access_time, size: 16, color: Colors.white),
-                                    SizedBox(width: 4),
-                                    Text('12 min', style: TextStyle(color: Colors.white)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(route.destino,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            )),
+                        Text('Via ${route.via}',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black54,
+                            )),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade100,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.people, size: 14, color: Colors.deepOrange),
+                        const SizedBox(width: 4),
+                        Text(route.ocupacao.toString()),
+                      ],
                     ),
                   )
                 ],
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+
+          // Painel inferior com pontos
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                boxShadow: [
+                  BoxShadow(blurRadius: 12, color: Colors.black12),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ...mockStops.map((stop) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.circle, size: 10, color: AppColors.roxo),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                stop['address']!,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            if (stop['time']!.isNotEmpty)
+                              Row(
+                                children: [
+                                  const Icon(Icons.schedule, size: 14, color: Colors.grey),
+                                  const SizedBox(width: 4),
+                                  Text(stop['time']!, style: const TextStyle(fontSize: 12)),
+                                ],
+                              ),
+                          ],
+                        ),
+                      )),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      minimumSize: const Size.fromHeight(48),
+                    ),
+                    onPressed: () {},
+                    icon: const Icon(Icons.play_arrow),
+                    label: const Text('Iniciar viagem em 12 min'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

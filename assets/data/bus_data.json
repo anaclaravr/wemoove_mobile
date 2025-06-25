@@ -1,0 +1,24 @@
+[
+  {
+    "numero": 401,
+    "destino": "Centro",
+    "localizacao": "Av. Amazonas, 123",
+    "tempo": "5 min",
+    "cor": "#EB6E38",
+    "via": "Via Savassi",
+    "ocupacao": 60,
+    "latitude": -19.9191,
+    "longitude": -43.9386
+  },
+  {
+    "numero": 503,
+    "destino": "Barreiro",
+    "localizacao": "Av. Afonso Pena, 987",
+    "tempo": "12 min",
+    "cor": "#F7C64D",
+    "via": "Via Praça Sete",
+    "ocupacao": 35,
+    "latitude": -19.9302,
+    "longitude": -43.9378
+  }
+]

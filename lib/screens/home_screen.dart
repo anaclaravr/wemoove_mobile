@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../core/theme/colors.dart';
 import '../models/bus_route.dart';
 import '../widgets/bus_card.dart';
@@ -12,45 +14,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isNearby = true;
+  late Future<List<BusRoute>> futureBusRoutes;
 
-  final List<BusRoute> mockData = [
-    BusRoute(
-      numero: 342,
-      destino: 'Solar Via Estação Diamante',
-      localizacao: 'Av. Afonso Vaz de Melo, 1191',
-      tempo: '10 min',
-      cor: 'laranja',
-      via: 'Estação Diamante', 
-      ocupacao: 5, 
-    ),
-    BusRoute(
-      numero: 340,
-      destino: 'Via Mangueiras',
-      localizacao: 'Rua Vicente de Azevedo, 1542',
-      tempo: '13 min',
-      cor: 'amarelo',
-      via: 'Estação Diamante', 
-      ocupacao: 5,        
-    ),
-    BusRoute(
-      numero: 342,
-      destino: 'Solar Via Estação Diamante',
-      localizacao: 'Av. Renato Azeredo, 254',
-      tempo: '15 min',
-      cor: 'laranja',
-      via: 'Estação Diamante', 
-      ocupacao: 5, 
-    ),
-    BusRoute(
-      numero: 347,
-      destino: 'ViaShopping',
-      localizacao: 'Rua Teste, 1234',
-      tempo: '15 min',
-      cor: 'roxo',
-      via: 'Estação Diamante', 
-      ocupacao: 5, 
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    futureBusRoutes = loadBusRoutes();
+  }
+
+  Future<List<BusRoute>> loadBusRoutes() async {
+    final String response = await rootBundle.loadString('assets/data/bus_data.json');
+    final List<dynamic> data = jsonDecode(response);
+    return data.map((e) => BusRoute.fromJson(e)).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,11 +95,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 16),
                     Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: mockData.length,
-                        itemBuilder: (context, index) =>
-                            BusCard(route: mockData[index]),
+                      child: FutureBuilder<List<BusRoute>>(
+                        future: futureBusRoutes,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return const Center(child: Text('Erro ao carregar os dados'));
+                          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                            return const Center(child: Text('Nenhuma linha disponível'));
+                          }
+
+                          final routes = snapshot.data!;
+                          return ListView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            itemCount: routes.length,
+                            itemBuilder: (context, index) {
+                              final route = routes[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/route',
+                                    arguments: route.toJson(),
+                                  );
+                                },
+                                child: BusCard(route: route),
+                              );
+                            },
+                          );
+                        },
                       ),
                     ),
                   ],

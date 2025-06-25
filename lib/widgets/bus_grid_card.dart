@@ -29,13 +29,8 @@ class BusGridCard extends StatelessWidget {
         Navigator.pushNamed(
           context,
           '/route',
-          arguments: {
-            'numero': route.numero.toString(),
-            'destino': route.destino,
-            'via': route.via,
-            'cor': route.cor,
-            'ocupacao': route.ocupacao,
-          },
+          arguments: route.toJson(),
+
         );
       },
       child: Container(

@@ -37,19 +37,27 @@ dependencies:
   firebase_core: ^2.27.0
   firebase_auth: ^4.17.4
   cloud_firestore: ^4.15.4
+  flutter_polyline_points: 1.0.0
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  cupertino_icons: ^1.0.8
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.4
+  cloud_firestore: ^4.15.4
+  http: ^0.13.6
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-
+  google_maps_flutter: ^2.5.0
+  geolocator: ^11.0.0
+  geocoding: ^2.1.0
+  location: ^5.0.3
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -60,6 +68,7 @@ flutter:
   assets:
     - assets/images/wemoove_logo.png
     - assets/images/mapa_estatico.png
+    - assets/data/bus_data.json
 
 
   fonts:

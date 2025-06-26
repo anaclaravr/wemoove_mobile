@@ -50,6 +50,7 @@ class _RouteScreenState extends State<RouteScreen> {
     return Scaffold(
       body: Stack(
         children: [
+          // Mapa
           GoogleMap(
             onMapCreated: (controller) => _mapController = controller,
             initialCameraPosition: initialPosition,
@@ -59,7 +60,6 @@ class _RouteScreenState extends State<RouteScreen> {
             zoomControlsEnabled: false,
           ),
 
-          // Header (barra superior com número e destino)
           Positioned(
             top: MediaQuery.of(context).padding.top + 8,
             left: 16,
@@ -123,7 +123,6 @@ class _RouteScreenState extends State<RouteScreen> {
             ),
           ),
 
-          // Painel inferior com pontos
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -181,6 +180,32 @@ class _RouteScreenState extends State<RouteScreen> {
                 ],
               ),
             ),
+          ),
+        ],
+      ),
+
+      // BottomNavigationBar
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 2, 
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pushNamed(context, '/home');
+          } else if (index == 1) {
+            Navigator.pushNamed(context, '/buscar');
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Início',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Buscar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.route),
+            label: 'Rota',
           ),
         ],
       ),

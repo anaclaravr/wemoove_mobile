@@ -20,5 +20,38 @@
     "ocupacao": 35,
     "latitude": -19.9302,
     "longitude": -43.9378
+  },
+    {
+    "numero": 901,
+    "destino": "Shopping Del Rey",
+    "localizacao": "Av. dos Andradas, 123",
+    "tempo": "15 min",
+    "cor": "#FF5733",
+    "via": "Via Contagem",
+    "ocupacao": 45,
+    "latitude": -19.9350,
+    "longitude": -43.9412
+  },
+   {
+    "numero": 802,
+    "destino": "Praça Sete",
+    "localizacao": "Rua dos Tupis, 540",
+    "tempo": "10 min",
+    "cor": "#4CAF50",
+    "via": "Av. Afonso Pena",
+    "ocupacao": 30,
+    "latitude": -19.9288,
+    "longitude": -43.9370
+  },
+     {
+    "numero": 1702,
+    "destino": "Praça da Liberdade",
+    "localizacao": "Rua dos Tupis, 540",
+    "tempo": "10 min",
+    "cor": "#4CAF50",
+    "via": "Av. Afonso Pena",
+    "ocupacao": 30,
+    "latitude": -19.9288,
+    "longitude": -43.9370
   }
 ]

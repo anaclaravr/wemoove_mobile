@@ -15,6 +15,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isNearby = true;
   late Future<List<BusRoute>> futureBusRoutes;
+  List<BusRoute> allBusRoutes = [];
+  List<BusRoute> filteredBusRoutes = [];
+  List<BusRoute> recentRoutes = []; // Lista para armazenar os ônibus recentes
+
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -25,7 +30,31 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<List<BusRoute>> loadBusRoutes() async {
     final String response = await rootBundle.loadString('assets/data/bus_data.json');
     final List<dynamic> data = jsonDecode(response);
-    return data.map((e) => BusRoute.fromJson(e)).toList();
+    allBusRoutes = data.map((e) => BusRoute.fromJson(e)).toList();
+    filteredBusRoutes = List.from(allBusRoutes); // Inicializa a lista de resultados com todos os ônibus
+    return filteredBusRoutes;
+  }
+
+  // Função para filtrar os ônibus com base na pesquisa
+  void _filterRoutes(String query) {
+    setState(() {
+      filteredBusRoutes = allBusRoutes.where((route) {
+        final numero = route.numero.toString().toLowerCase();
+        final destino = route.destino.toLowerCase();
+        final search = query.toLowerCase();
+        return numero.contains(search) || destino.contains(search);
+      }).toList();
+    });
+  }
+
+  // Função que adiciona o ônibus à lista de recentes
+  void _addToRecent(BusRoute route) {
+    if (!recentRoutes.contains(route)) {
+      if (recentRoutes.length >= 2) {
+        recentRoutes.removeAt(0); // Remove o primeiro da lista (mais antigo)
+      }
+      recentRoutes.add(route); // Adiciona o ônibus mais recente
+    }
   }
 
   @override
@@ -46,6 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
+                controller: _searchController,
+                onChanged: _filterRoutes, // Chama o filtro sempre que o texto mudar
                 decoration: InputDecoration(
                   hintText: 'Sua localização atual',
                   prefixIcon: const Icon(Icons.location_on),
@@ -82,13 +113,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: Icons.directions_bus,
                             text: "Ao redor",
                             isSelected: isNearby,
-                            onTap: () => setState(() => isNearby = true),
+                            onTap: () {
+                              setState(() {
+                                isNearby = true;
+                                filteredBusRoutes = List.from(allBusRoutes); // Mostra todos os ônibus
+                              });
+                            },
                           ),
                           _TabButton(
                             icon: Icons.schedule,
                             text: "Recente",
                             isSelected: !isNearby,
-                            onTap: () => setState(() => isNearby = false),
+                            onTap: () {
+                              setState(() {
+                                isNearby = false;
+                                filteredBusRoutes = List.from(recentRoutes); // Mostra apenas os ônibus recentes
+                              });
+                            },
                           ),
                         ],
                       ),
@@ -106,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             return const Center(child: Text('Nenhuma linha disponível'));
                           }
 
-                          final routes = snapshot.data!;
+                          final routes = filteredBusRoutes; // Usar a lista filtrada
                           return ListView.builder(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             itemCount: routes.length,
@@ -114,6 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               final route = routes[index];
                               return GestureDetector(
                                 onTap: () {
+                                  _addToRecent(route); // Adiciona ao histórico de recentes
                                   Navigator.pushNamed(
                                     context,
                                     '/route',
